@@ -8,7 +8,6 @@
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "commit": "git-cz",
     "release": "standard-version --no-verify",
-    "build": "tsc",
     "clean": "npx rimraf ./build",
     "dev": "ts-node server.ts",
     "start": "node build/server.js",
