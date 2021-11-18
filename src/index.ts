@@ -54,7 +54,7 @@
      next();
  });
  const health = async (req: Request, res: Response) => {
-     res.json({ message: 'working', env: process.env.NODE_ENV, headers: req.headers });
+     res.json({ message: 'working!', env: process.env.NODE_ENV, headers: req.headers });
  };
  
  app.get('/', health);
