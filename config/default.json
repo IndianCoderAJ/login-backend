@@ -1,0 +1,10 @@
+{
+	"logger": {
+		"level": "debug",
+		"appName": "simple-login-backend"
+	},
+	"jwt": {
+		"expiresIn": "24h",
+		"secret": "gvoodevmxzxyulp"
+	}
+}

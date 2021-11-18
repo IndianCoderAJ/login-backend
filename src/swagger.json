@@ -1,0 +1,833 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"version": "1.0.0",
+		"title": "Seans-TypeScript-NodeJS-CRUD-REST-API-Boilerplate",
+		"description": "A minimal and easy to follow example of what you need to create a CRUD style API in NodeJs using TypeScript",
+		"license": {
+			"name": "MIT",
+			"url": "https://opensource.org/licenses/MIT"
+		}
+	},
+	"servers": [
+		{
+			"url": "/",
+			"description": "Local Dev"
+		}
+	],
+	"tags": [
+		{
+			"name": "Admin",
+			"description": "API for Admin in the system"
+		}
+	],
+
+	"components": {
+		"securitySchemes": {
+			"ApiKeyAuth": {
+				"type": "apiKey",
+				"in": "header",
+				"name": "Authorization"
+			}
+		}
+	},
+	"security": [
+		{
+			"ApiKeyAuth": []
+		}
+	],
+	"consumes": ["application/json"],
+	"produces": ["application/json"],
+	"paths": {
+		"/health": { "get": {} },
+		"/superadmin/login": {
+			"post": {
+				"tags": ["Superadmin"],
+				"summary": "Superadmin login",
+				"requestBody": {
+					"description": "Superadmin Object",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/definitions/Superadminlogin"
+							},
+                            "example": {
+								"email": "admin@ceroHr.com",
+								"password": "ceroHr@12345"
+							}
+						}
+					}
+				},
+				"produces": ["application/json"],
+				"responses": {
+					"200": {
+						"description": "Login detail object",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/definitions/SuperadminLoginInResponse"
+								},
+								"example": {
+									"accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGVfbnVtYmVyIjoiIiwiZW1haWwiOiJ0ZWNobm9sb2d5QGZpeGxpbmcuaW8iLCJuYW1lIjoiVGVjaG5vbG9neSIsImlkIjozLCJyb2xlIjoiU1VQRVJBRE1JTiIsImlhdCI6MTYxOTUwMjIzMCwiZXhwIjoxNjE5NTQ1NDMwfQ.g1oaR1L9UR71iqmQ0JHhYWklUhOBoyyA0HRth1GNBxY",
+									"refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGVfbnVtYmVyIjoiIiwiZW1haWwiOiJ0ZWNobm9sb2d5QGZpeGxpbmcuaW8iLCJuYW1lIjoiVGVjaG5vbG9neSIsImlkIjozLCJyb2xlIjoiU1VQRVJBRE1JTiIsImlhdCI6MTYxOTUwMjIzMCwiZXhwIjoxNjUxMDU5ODMwfQ.kRdyNMakJIYTf2nNELu23skSr-4YzspRQ7fEWdyQ3ww",
+									"data": {
+										"email": "technology@fixling.io",
+										"mobile_number": "",
+										"name": "Technology",
+										"role": "SUPERADMIN",
+										"id": 3
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/superadmin/password": {
+			"put": {
+				"tags": ["Superadmin"],
+				"summary": "Change the Password.",
+				"requestBody": {
+					"description": "Change password Object",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/definitions/superadminchangepassword"
+							},
+							"example": {
+								"currPassword": "ceroHr@123",
+                                "newPassword":"newPassword"
+							}
+						}
+					}
+				},
+				"produces": ["application/json"],
+				"responses": {
+					"200": {
+						"description": "Change password.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/definitions/superadminchangepasswordResponse"
+								},
+								"example": {
+									"message": "Password changed successfully."
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+        "/superadmin/password/forgot": {
+			"post": {
+				"tags": ["Superadmin"],
+				"summary": "Forgot Password.",
+				"requestBody": {
+					"description": "Forgot password ",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/definitions/superadminchangepasswordforgot"
+							},
+							"example": {
+								"email": "admin@ceroHr.com"
+							}
+						}
+					}
+				},
+				"produces": ["application/json"],
+				"responses": {
+					"200": {
+						"description": "Forgot password.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/definitions/superadminchangepasswordforgotResponse"
+								},
+								"example": {
+									"message": "Mail sent to registerd email, otp should be used within 5 minutes."
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+        "/superadmin/password/forgot/verifyotp":{
+            "post": {
+				"tags": ["Superadmin"],
+				"summary": "Forgot Password OTP verification.",
+				"requestBody": {
+					"description": "Forgot password verification.",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/definitions/superadminchangepasswordforgotverification"
+							},
+							"example": {
+								"email": "admin@ceroHr.com",
+                                "otp":"136929"
+							}
+						}
+					}
+				},
+				"produces": ["application/json"],
+				"responses": {
+					"200": {
+						"description": "Forgot password verification.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/definitions/superadminchangepasswordforgotverificationResponse"
+								},
+								"example": {
+									"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGNlcm9Ici5jb20iLCJtb2JpbGVfbnVtYmVyIjoiIiwibmFtZSI6IkludmVudGFtIiwiaWQiOiJmNWM5NjMyMC1kODk1LTRjMzctODM4ZS1lYTllZGNlNzA1MjEiLCJ0ZW5hbnRfaWQiOm51bGwsInJvbGUiOiJTVVBFUkFETUlOIiwiaWF0IjoxNjM2OTU0OTMzLCJleHAiOjE2Njg1MTI1MzN9.6L_wD4_gG4GsmoT4XHhD9IrGH8YyjZVIZOgOeDlBwyQ"
+								}
+							}
+						}
+					}
+				}
+			}
+        },
+        "/superadmin/password/forgot/reset":{
+            "post": {
+				"tags": ["Superadmin"],
+				"summary": "Reset Password.",
+				"requestBody": {
+					"description": "Reset password.",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/definitions/superadminchangepasswordforgotverification"
+							},
+							"example": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGNlcm9Ici5jb20iLCJtb2JpbGVfbnVtYmVyIjoiIiwibmFtZSI6IkludmVudGFtIiwiaWQiOiJmNWM5NjMyMC1kODk1LTRjMzctODM4ZS1lYTllZGNlNzA1MjEiLCJ0ZW5hbnRfaWQiOm51bGwsInJvbGUiOiJTVVBFUkFETUlOIiwiaWF0IjoxNjM2Njk4MTU3LCJleHAiOjE2NjgyNTU3NTd9.066r2WMFgESgfXELsmvlt6p4F0JzqwUoJwd0O_suiTI",
+                                "password":"ceroHr@12345"
+							}
+						}
+					}
+				},
+				"produces": ["application/json"],
+				"responses": {
+					"200": {
+						"description": "Reset password.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/definitions/superadminchangepasswordforgotverificationResponse"
+								},
+                                "example": {
+									"accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGVfbnVtYmVyIjoiIiwiZW1haWwiOiJ0ZWNobm9sb2d5QGZpeGxpbmcuaW8iLCJuYW1lIjoiVGVjaG5vbG9neSIsImlkIjozLCJyb2xlIjoiU1VQRVJBRE1JTiIsImlhdCI6MTYxOTUwMjIzMCwiZXhwIjoxNjE5NTQ1NDMwfQ.g1oaR1L9UR71iqmQ0JHhYWklUhOBoyyA0HRth1GNBxY",
+									"refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGVfbnVtYmVyIjoiIiwiZW1haWwiOiJ0ZWNobm9sb2d5QGZpeGxpbmcuaW8iLCJuYW1lIjoiVGVjaG5vbG9neSIsImlkIjozLCJyb2xlIjoiU1VQRVJBRE1JTiIsImlhdCI6MTYxOTUwMjIzMCwiZXhwIjoxNjUxMDU5ODMwfQ.kRdyNMakJIYTf2nNELu23skSr-4YzspRQ7fEWdyQ3ww",
+									"data": {
+										"email": "technology@fixling.io",
+										"mobile_number": "",
+										"name": "Technology",
+										"role": "SUPERADMIN",
+										"id": 3
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+        }
+	},
+	"definitions": {
+        "superadminchangepassword":{
+			"type": "object",
+			"properties": {
+				"currPassword": {
+					"type": "string"
+				},
+                "newPassword": {
+					"type": "string"
+				}
+			}
+        },
+        "superadminchangepasswordResponse":{
+            "type": "object",
+			"properties": {
+				"message": {
+					"type": "string"
+				}
+			}
+        },
+        "superadminchangepasswordforgot": {
+            "type": "object",
+			"properties": {
+				"email": {
+					"type": "string"
+				}
+			}
+        },
+        "superadminchangepasswordforgotResponse": {
+            "type": "object",
+			"properties": {
+				"message": {
+					"type": "string"
+				}
+			}
+        },
+        "superadminchangepasswordforgotverification":{
+            "type": "object",
+			"properties": {
+				"email": {
+					"type": "string"
+				},
+                "otp": {
+					"type": "string"
+				}
+			}
+        },
+        "superadminchangepasswordforgotverificationResponse":{
+            "type": "object",
+			"properties": {
+				"token": {
+					"type": "string"
+				}
+			}
+        },
+        "superadminchangepasswordRest":{
+            "type": "object",
+			"properties": {
+				"token": {
+					"type": "string"
+				},
+                "password": {
+					"type": "string"
+				}  
+			}
+        },
+        "superadminchangepasswordRestResponse":{
+            "type": "object",
+			"properties": {
+				"accessToken": {
+					"type": "string"
+				},
+				"refreshToken": {
+					"type": "string"
+				},
+				"data": {
+					"type": "object",
+					"properties": {
+						"email": {
+							"type": "string"
+						},
+						"mobile_number": {
+							"type": "string"
+						},
+						"name": {
+							"type": "string"
+						},
+						"role": {
+							"type": "string"
+						},
+						"id": {
+							"type": "integer"
+						}
+					}
+				}
+			}
+        },
+		"SuperadminLoginInResponse": {
+			"type": "object",
+			"properties": {
+				"accessToken": {
+					"type": "string"
+				},
+				"refreshToken": {
+					"type": "string"
+				},
+				"data": {
+					"type": "object",
+					"properties": {
+						"email": {
+							"type": "string"
+						},
+						"mobile_number": {
+							"type": "string"
+						},
+						"name": {
+							"type": "string"
+						},
+						"role": {
+							"type": "string"
+						},
+						"id": {
+							"type": "integer"
+						}
+					}
+				}
+			}
+		},
+		"Category": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string"
+				}
+			}
+		},
+		"AddCategoryResponse": {
+			"type": "object",
+			"properties": {
+				"data": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "string"
+							},
+							"name": {
+								"type": "string"
+							},
+							"created_date": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"message": {
+					"type": "string"
+				},
+				"success": {
+					"type": "boolean"
+				}
+			}
+		},
+		"DeleteCategoryResponse": {
+			"type": "object",
+			"properties": {
+				"data": {
+					"type": "object",
+					"properties": {
+						"id": {
+							"type": "string"
+						},
+						"name": {
+							"type": "string"
+						}
+					}
+				},
+				"message": {
+					"type": "string"
+				},
+				"success": {
+					"type": "boolean"
+				}
+			}
+		},
+		"SuperadminDeleteBrandResponse": {
+			"type": "object",
+			"properties": {
+				"data": {
+					"type": "object",
+					"properties": {
+						"id": {
+							"type": "string"
+						},
+						"name": {
+							"type": "string"
+						}
+					}
+				},
+				"message": {
+					"type": "string"
+				},
+				"success": {
+					"type": "boolean"
+				}
+			}
+		},
+		"Superadminlogin": {
+			"type": "object",
+			"properties": {
+				"email": {
+					"type": "string"
+				},
+				"password": {
+					"type": "string"
+				}
+			}
+		},
+		"Superadminbrand": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string"
+				}
+			}
+		},
+		"AddBrandResponse": {
+			"type": "object",
+			"properties": {
+				"data": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "string"
+							},
+							"name": {
+								"type": "string"
+							},
+							"created_date": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"message": {
+					"type": "string"
+				},
+				"success": {
+					"type": "boolean"
+				}
+			}
+		},
+		"Superadminsubcategory": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"category_id": {
+					"type": "string"
+				},
+				"types": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			}
+		},
+		"AddSubcategeoryResponse": {
+			"type": "object",
+			"properties": {
+				"data": {
+					"type": "object",
+					"properties": {
+						"id": {
+							"type": "string"
+						},
+						"name": {
+							"type": "string"
+						},
+						"types": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"category_name": {
+							"type": "string"
+						},
+						"created_date": {
+							"type": "string"
+						}
+					}
+				},
+				"message": {
+					"type": "string"
+				},
+				"success": {
+					"type": "boolean"
+				}
+			}
+		},
+		"GetSuperadminSubcategoryResponse": {
+			"type": "object",
+			"properties": {
+				"data": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "string"
+							},
+							"name": {
+								"type": "string"
+							},
+							"types": {
+								"type": "array",
+								"items": {
+									"type": "string"
+								}
+							},
+							"category_name": {
+								"type": "string"
+							},
+							"created_date": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"message": {
+					"type": "string"
+				},
+				"success": {
+					"type": "boolean"
+				}
+			}
+		},
+		"SuperadminDeleteSubcategoryResponse": {
+			"type": "object",
+			"properties": {
+				"data": {
+					"type": "object",
+					"properties": {
+						"id": {
+							"type": "string"
+						},
+						"name": {
+							"type": "string"
+						}
+					}
+				},
+				"message": {
+					"type": "string"
+				},
+				"success": {
+					"type": "boolean"
+				}
+			}
+		},
+		"SuperadminProduct": {
+			"type": "object",
+			"properties": {
+				"category_id": {
+					"type": "string"
+				},
+				"subcategory_id": {
+					"type": "string"
+				},
+				"subcategory_name": {
+					"type": "string"
+				},
+				"brands": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "string"
+							},
+							"name": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"types": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"variants": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"image": {
+					"type": "string"
+				}
+			}
+		},
+		"GetSuperadminProductResponse": {
+			"type": "object",
+			"properties": {
+				"data": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "string"
+							},
+							"name": {
+								"type": "string"
+							},
+							"brand_name": {
+								"type": "string"
+							},
+							"variants": {
+								"type": "array",
+								"items": {
+									"type": "string"
+								}
+							},
+							"is_visible": {
+								"type": "boolean"
+							},
+							"image": {
+								"type": "string"
+							},
+							"created_date": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"message": {
+					"type": "string"
+				},
+				"success": {
+					"type": "boolean"
+				}
+			}
+		},
+		"ListSuperadminProductResponse": {
+			"type": "object",
+			"properties": {
+				"data": {
+					"type": "object",
+					"properties": {
+						"count": {
+							"type": "integer"
+						},
+						"rows": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string"
+									},
+									"name": {
+										"type": "string"
+									},
+									"brand_name": {
+										"type": "string"
+									},
+									"variants": {
+										"type": "array",
+										"items": {
+											"type": "string"
+										}
+									},
+									"is_visible": {
+										"type": "boolean"
+									},
+									"image": {
+										"type": "string"
+									},
+									"created_date": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				},
+				"message": {
+					"type": "string"
+				},
+				"success": {
+					"type": "boolean"
+				}
+			}
+		},
+		"SuperadminUpdateProduct": {
+			"type": "object",
+			"properties": {
+				"category_id": {
+					"type": "string"
+				},
+				"subcategory_name": {
+					"type": "string"
+				},
+				"subcategory_id": {
+					"type": "string"
+				},
+				"brand_id": {
+					"type": "string"
+				},
+				"brand_name": {
+					"type": "string"
+				},
+				"types": {
+					"type": "string"
+				},
+				"variants": {
+					"type": "array",
+					"items": { "type": "string" }
+				},
+				"image": {
+					"type": "string"
+				}
+			}
+		},
+		"SuperadminServiceType": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string"
+				}
+			}
+		},
+		"SuperadminService": {
+			"type": "object",
+			"properties": {
+				"category_id": {
+					"type": "string"
+				},
+				"category_name": {
+					"type": "string"
+				},
+				"subcategory_name": {
+					"type": "string"
+				},
+				"subcategory_id": {
+					"type": "string"
+				},
+				"types": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "string"
+							},
+							"name": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			}
+		},
+		"SuperadminUpdateService": {
+			"type": "object",
+			"properties": {
+				"category_id": {
+					"type": "string"
+				},
+				"subcategory_id": {
+					"type": "string"
+				},
+				"service_type_id": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
