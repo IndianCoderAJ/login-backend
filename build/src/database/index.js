@@ -12,17 +12,6 @@ let dbConnection = () => {
             .connect(MongoConnectionURL)
             .then((res) => {
             console.log("Mongodb connected..");
-            // const doc = new userModel({
-            //     email: 'bill@initech.com',
-            //     fname:"akshay",
-            //     lname:"johsi",
-            //     password:"asfasf",
-            //     salt:"asfa",
-            //     token:"asfasf"
-            //   });
-            //   doc.save().then(()=>{
-            //       console.log("usercreated..");
-            //   });
         })
             .catch(err => {
             console.log(err);

@@ -24,6 +24,7 @@ const userAuth = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
             });
         }
         const tokenData = yield (0, helpers_1.verifyJwt)(authorization);
+        console.log(tokenData);
         req.headers.tokenData = tokenData;
         next();
     }

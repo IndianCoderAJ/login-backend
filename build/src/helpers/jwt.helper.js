@@ -17,7 +17,6 @@ console.log(jwtConfig);
 const jwtOption = {
     // expiresIn: jwtConfig.expiresIn || '1m',
     expiresIn: '1y',
-    secret: "gvoodevmxzxyulp"
 };
 const refreshJwtOption = {
     // expiresIn: jwtConfig.refreshExpiresIn || '1y',
